@@ -24,9 +24,15 @@ public class Main {
         String body = sc.nextLine();
 
         int id = ++articleLastId;
-        // int id = articleLastId + 1;
-        System.out.printf("%d번 게시물이 생성되었습니다.\n", id);
-        // articleLastId++;
+
+        Article article = new Article();
+        article.id = id;
+        article.title = title;
+        article.body = body;
+
+        System.out.println("생성된 게시물 객체 : " + article);
+
+        System.out.printf("%d번 게시물이 생성되었습니다.\n", article.id);
       }
       else if(cmd.equals("exit")) {
         System.out.println("== 게시판을 종료합니다 ==");
@@ -36,4 +42,10 @@ public class Main {
 
     sc.close();
   }
+}
+
+class Article {
+  int id;
+  String title;
+  String body;
 }
