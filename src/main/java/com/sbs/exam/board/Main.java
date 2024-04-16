@@ -11,6 +11,7 @@ public class Main {
     articles.add(new Article(3, "제목3", "내용3"));
   }
 
+
   public static void main(String[] args) {
     Scanner sc = new Scanner(System.in);
     int articleLastId = 0;
@@ -19,6 +20,10 @@ public class Main {
     List<Article> articles = new ArrayList<>();
 
     makeTestData(articles);
+
+    if(articles.size() > 0) {
+      articleLastId = articles.get(articles.size() - 1).id;
+    }
 
     System.out.println("== 텍스트 게시판 v 0.1 ==");
     System.out.println("프로그램 시작");
