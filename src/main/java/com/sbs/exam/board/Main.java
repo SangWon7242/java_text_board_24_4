@@ -6,9 +6,14 @@ import java.util.*;
 import java.util.stream.IntStream;
 
 public class Main {
-  static int articleLastId = 0;
+  static int articleLastId;
 
-  static List<Article> articles = new ArrayList<>();
+  static List<Article> articles;
+
+  static {
+    articleLastId = 0;
+    articles = new ArrayList<>();
+  }
 
   static void makeTestData() {
     IntStream.rangeClosed(1, 100)
