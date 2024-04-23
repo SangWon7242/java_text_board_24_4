@@ -5,11 +5,6 @@ import java.util.stream.IntStream;
 
 public class Main {
   static void makeTestData(List<Article> articles) {
-    /*
-    for(int i = 1; i <= 100; i++) {
-      articles.add(new Article(i, "제목" + i, "내용" + i));
-    }
-     */
     IntStream.rangeClosed(1, 100)
         .forEach(i -> articles.add(new Article(i, "제목" + i, "내용" + i)));
   }
@@ -56,6 +51,26 @@ public class Main {
         System.out.println("== 게시물 리스트 ==");
         System.out.println("번호 | 제목");
 
+        // 검색 시작
+        List<Article> filteredArticles = articles;
+
+        if(params.containsKey("searchKeyword")) {
+          String searchKeyword = params.get("searchKeyword");
+
+          filteredArticles = new ArrayList<>();
+
+          for(Article article : articles) {
+            boolean matched = article.title.contains(searchKeyword) || article.body.contains(searchKeyword);
+
+            if(matched) {
+              filteredArticles.add(article);
+            }
+          }
+        }
+        // 검색 기능 끝
+
+        List<Article> sortedArticles = filteredArticles;
+
         boolean orderByIdDesc = true; // 기존로직
 
         if(params.containsKey("orderBy") && params.get("orderBy").equals("idAsc")) {
@@ -63,13 +78,13 @@ public class Main {
         }
 
         if(orderByIdDesc) {
-          for(int i = articles.size() - 1; i >= 0; i--) {
-            Article article = articles.get(i);
+          for(int i = sortedArticles.size() - 1; i >= 0; i--) {
+            Article article = sortedArticles.get(i);
             System.out.printf(" %d  | %s\n", article.id, article.title);
           }
         }
         else {
-          for(Article article : articles) {
+          for(Article article : sortedArticles) {
             System.out.printf(" %d  | %s\n", article.id, article.title);
           }
         }
