@@ -1,6 +1,7 @@
 package com.sbs.exam.board;
 
 import com.sbs.exam.board.container.Container;
+import com.sbs.exam.board.dto.Member;
 import com.sbs.exam.board.session.Session;
 import lombok.Getter;
 

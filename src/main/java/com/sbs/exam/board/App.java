@@ -1,6 +1,7 @@
 package com.sbs.exam.board;
 
 import com.sbs.exam.board.container.Container;
+import com.sbs.exam.board.dto.Member;
 
 public class App {
   public void run() {
