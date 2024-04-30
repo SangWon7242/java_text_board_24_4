@@ -2,26 +2,27 @@ package com.sbs.exam.board;
 
 import com.sbs.exam.board.container.Container;
 import com.sbs.exam.board.session.Session;
+import lombok.Getter;
 
 import java.util.Map;
 
 public class Rq {
   public String url;
+  public String loginedMember;
+
+  @Getter
   public Map<String, String> params;
+
+  @Getter
   public String urlPath;
 
-  Rq(String url) {
-    this.url = url;
-    params = Util.getParamsFromUrl(this.url);
-    urlPath = Util.getUrlPathFromUrl(this.url);
+  public Rq() {
+    loginedMember = "loginedMember";
   }
 
-  public Map<String, String> getParams() {
-    return params;
-  }
-
-  public String getUrlPath() {
-    return urlPath;
+  public void setCommand(String url) {
+    params = Util.getParamsFromUrl(url);
+    urlPath = Util.getUrlPathFromUrl(url);
   }
 
   public int getIntParam(String paramName, int defaultValue) {
@@ -60,14 +61,28 @@ public class Rq {
 
   // 로그인 된 경우 : true
   // 로그인이 안 된 경우 : false
-  public boolean isLogined(String loginedValue) {
+  public boolean isLogined() {
     Session session = Container.getSession();
 
-    return session.hasAttribute(loginedValue);
+    return session.hasAttribute(loginedMember);
   }
 
-  public boolean isLogout(String loginedValue) {
-    return !isLogined(loginedValue);
+  public boolean isLogout() {
+    return !isLogined();
+  }
+
+  public void login(Member member) {
+    setSessionAttr(loginedMember, member);
+  }
+
+  public void logout() {
+    removeSessionAttr(loginedMember);
+  }
+
+  public Member getLoginedMember() {
+    Session session = Container.getSession();
+
+    return (Member) session.getAttribute(loginedMember);
   }
 
 }

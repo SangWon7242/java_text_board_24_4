@@ -1,21 +1,19 @@
 package com.sbs.exam.board;
 
 import com.sbs.exam.board.container.Container;
-import com.sbs.exam.board.session.Session;
 
 public class App {
-
   public void run() {
     System.out.println("== 텍스트 게시판 v 0.1 ==");
     System.out.println("프로그램 시작");
 
     while (true) {
-      Session session = Container.getSession();
-      Member loginedMember = (Member) session.getAttribute("loginedMember");
+      Rq rq = new Rq();
 
       String promptName = "명령";
 
-      if(loginedMember != null) {
+      if(rq.isLogined()) {
+        Member loginedMember = rq.getLoginedMember();
         promptName = loginedMember.getUsername();
       }
 
@@ -23,7 +21,7 @@ public class App {
       String cmd = Container.sc.nextLine();
 
 
-      Rq rq = new Rq(cmd);
+      rq.setCommand(cmd);
 
       if (rq.getUrlPath().equals("/usr/article/write")) {
         Container.articleController.actionWrite();
