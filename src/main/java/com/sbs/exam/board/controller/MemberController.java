@@ -1,6 +1,7 @@
 package com.sbs.exam.board.controller;
 
 import com.sbs.exam.board.Member;
+import com.sbs.exam.board.Rq;
 import com.sbs.exam.board.container.Container;
 
 import java.util.ArrayList;
@@ -95,10 +96,9 @@ public class MemberController {
     members.add(member);
 
     System.out.printf("\"%s\"님 회원가입 되었습니다.\n", member.getUsername());
-
   }
 
-  public void actionLogin() {
+  public void actionLogin(Rq rq) {
     String username;
     String password;
     Member member;
@@ -154,6 +154,8 @@ public class MemberController {
       break;
     }
     // 비밀번호 입력 끝
+
+    rq.setSessionAttr("loginedMember", member);
 
     System.out.printf("\"%s\"님 로그인 되었습니다.\n", member.getUsername());
   }

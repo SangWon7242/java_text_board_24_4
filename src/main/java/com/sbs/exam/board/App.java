@@ -1,6 +1,7 @@
 package com.sbs.exam.board;
 
 import com.sbs.exam.board.container.Container;
+import com.sbs.exam.board.session.Session;
 
 public class App {
 
@@ -9,8 +10,18 @@ public class App {
     System.out.println("프로그램 시작");
 
     while (true) {
-      System.out.printf("명령) ");
+      Session session = Container.getSession();
+      Member loginedMember = (Member) session.getAttribute("loginedMember");
+
+      String promptName = "명령";
+
+      if(loginedMember != null) {
+        promptName = loginedMember.getUsername();
+      }
+
+      System.out.printf("%s) ", promptName);
       String cmd = Container.sc.nextLine();
+
 
       Rq rq = new Rq(cmd);
 
@@ -27,7 +38,7 @@ public class App {
       } else if (rq.getUrlPath().equals("/usr/member/join")) {
         Container.memberController.actionJoin();
       } else if (rq.getUrlPath().equals("/usr/member/login")) {
-        Container.memberController.actionLogin();
+        Container.memberController.actionLogin(rq);
       } else if (cmd.equals("exit")) {
         System.out.println("== 게시판을 종료합니다 ==");
         break;
