@@ -99,6 +99,15 @@ public class MemberController {
   }
 
   public void actionLogin(Rq rq) {
+    boolean isLogined = rq.isLogined("loginedMember");
+
+    if(isLogined) {
+      System.out.println("이미 로그인 되어 있습니다.");
+      System.out.println("로그아웃 후 이용해주세요.");
+      return;
+    }
+
+
     String username;
     String password;
     Member member;
@@ -168,5 +177,17 @@ public class MemberController {
     }
 
     return null;
+  }
+
+  public void actionLogout(Rq rq) {
+    boolean isLogout = rq.isLogout("loginedMember");
+
+    if(isLogout) {
+      System.out.println("이미 로그아웃 상태입니다.");
+      return;
+    }
+
+    rq.removeSessionAttr("loginedMember");
+    System.out.println("로그아웃 되었습니다.");
   }
 }

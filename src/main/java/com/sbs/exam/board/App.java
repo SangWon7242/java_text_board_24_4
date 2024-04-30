@@ -39,6 +39,8 @@ public class App {
         Container.memberController.actionJoin();
       } else if (rq.getUrlPath().equals("/usr/member/login")) {
         Container.memberController.actionLogin(rq);
+      } else if (rq.getUrlPath().equals("/usr/member/logout")) {
+        Container.memberController.actionLogout(rq);
       } else if (cmd.equals("exit")) {
         System.out.println("== 게시판을 종료합니다 ==");
         break;

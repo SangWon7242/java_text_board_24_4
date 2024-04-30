@@ -50,4 +50,24 @@ public class Rq {
 
     session.setAttribute(key, value);
   }
+
+  public void removeSessionAttr(String key) {
+    Session session = Container.getSession();
+
+    session.removeAttribute(key);
+  }
+
+
+  // 로그인 된 경우 : true
+  // 로그인이 안 된 경우 : false
+  public boolean isLogined(String loginedValue) {
+    Session session = Container.getSession();
+
+    return session.hasAttribute(loginedValue);
+  }
+
+  public boolean isLogout(String loginedValue) {
+    return !isLogined(loginedValue);
+  }
+
 }
