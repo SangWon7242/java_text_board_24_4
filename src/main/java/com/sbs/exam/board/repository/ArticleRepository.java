@@ -21,9 +21,9 @@ public class ArticleRepository {
     }
   }
 
-  public int write(String title, String body) {
+  public int write(String title, String body, String writerName) {
     int id = ++lastId;
-    articles.add(new Article(id, title, body));
+    articles.add(new Article(id, title, body, writerName));
 
     return id;
   }
