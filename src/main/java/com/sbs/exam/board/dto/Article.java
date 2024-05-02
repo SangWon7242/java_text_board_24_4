@@ -10,4 +10,5 @@ public class Article {
   private String title;
   private String body;
   private String writer__name; // 작성자
+  private int memberId;
 }

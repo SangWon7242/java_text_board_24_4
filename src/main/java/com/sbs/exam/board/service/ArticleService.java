@@ -17,12 +17,13 @@ public class ArticleService {
       String title = "제목" + i;
       String body = "내용" + i;
       String writerName = "회원1";
-      write(title, body, writerName);
+      int memberId = 1;
+      write(title, body, writerName, memberId);
     }
   }
 
-  public int write(String title, String body, String writerName) {
-    return articleRepository.write(title, body, writerName);
+  public int write(String title, String body, String writerName, int memberId) {
+    return articleRepository.write(title, body, writerName, memberId);
   }
 
   public List<Article> getArticles() {

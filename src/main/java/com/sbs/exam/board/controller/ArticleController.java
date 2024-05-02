@@ -28,7 +28,7 @@ public class ArticleController {
 
     Member member = rq.getLoginedMember();
 
-    int id = articleService.write(title, body, member.getName());
+    int id = articleService.write(title, body, member.getName(), member.getId());
 
     System.out.printf("%d번 게시물이 생성되었습니다.\n", id);
   }
@@ -85,6 +85,13 @@ public class ArticleController {
       return;
     }
 
+    Member member = rq.getLoginedMember();
+
+    if(article.getMemberId() != member.getId()) {
+      System.out.println("게시물 수정 권한이 없습니다.");
+      return;
+    }
+
     System.out.printf("새 제목 : ");
     String title = Container.getSc().nextLine();
 
@@ -108,6 +115,13 @@ public class ArticleController {
 
     if (article == null) {
       System.out.printf("%d번 게시물은 존재하지 않습니다.\n", id);
+      return;
+    }
+
+    Member member = rq.getLoginedMember();
+
+    if(article.getMemberId() != member.getId()) {
+      System.out.println("게시물 수정 권한이 없습니다.");
       return;
     }
 
