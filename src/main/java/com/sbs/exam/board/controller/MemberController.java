@@ -1,28 +1,15 @@
 package com.sbs.exam.board.controller;
 
-import com.sbs.exam.board.dto.Member;
 import com.sbs.exam.board.Rq;
 import com.sbs.exam.board.container.Container;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.IntStream;
+import com.sbs.exam.board.dto.Member;
+import com.sbs.exam.board.service.MemberService;
 
 public class MemberController {
-  private int memberLastId;
-
-  private List<Member> members;
+  private MemberService memberService;
 
   public MemberController() {
-    memberLastId = 0;
-    members = new ArrayList<>();
-
-    makeTestData();
-  }
-
-  void makeTestData() {
-    IntStream.rangeClosed(1, 3)
-        .forEach(i -> members.add(new Member(i, "user" + i, "user" + i, "이름" + i)));
+    memberService = Container.getMemberService();
   }
 
   public void actionJoin() {
@@ -31,6 +18,8 @@ public class MemberController {
     String passwordConfirm;
     String name;
 
+    Member member;
+
     // 아이디 입력 시작
     while (true) {
       System.out.printf("아이디 : ");
@@ -38,6 +27,13 @@ public class MemberController {
 
       if (username.trim().isEmpty()) {
         System.out.println("username을 입력해주세요.");
+        continue;
+      }
+
+      member = memberService.findByUsername(username);
+
+      if(member != null) {
+        System.out.println("이미 가입된 회원입니다.");
         continue;
       }
 
@@ -90,12 +86,9 @@ public class MemberController {
     }
     // 이름 입력 끝
 
-    int id = ++memberLastId;
+    member = memberService.join(username, password, name);
 
-    Member member = new Member(id, username, password, name);
-    members.add(member);
-
-    System.out.printf("\"%s\"님 회원가입 되었습니다.\n", member.getUsername());
+    System.out.printf("\"%s\"님 회원 가입이 되었습니다.\n", member.getUsername());
   }
 
   public void actionLogin(Rq rq) {
@@ -105,7 +98,6 @@ public class MemberController {
       System.out.println("로그아웃 후 이용해주세요.");
       return;
     }
-
 
     String username;
     String password;
@@ -121,7 +113,7 @@ public class MemberController {
         continue;
       }
 
-      member = findByUsername(username);
+      member = memberService.findByUsername(username);
 
       if(member == null) {
         System.out.println("존재하지 않는 아이디입니다.");
@@ -166,16 +158,6 @@ public class MemberController {
     rq.login(member);
 
     System.out.printf("\"%s\"님 로그인 되었습니다.\n", member.getUsername());
-  }
-
-  private Member findByUsername(String username) {
-    for(Member member : members) {
-      if(member.getUsername().equals(username)) {
-        return member;
-      }
-    }
-
-    return null;
   }
 
   public void actionLogout(Rq rq) {
