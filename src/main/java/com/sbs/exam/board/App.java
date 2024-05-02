@@ -12,6 +12,9 @@ public class App {
     System.out.println("== 텍스트 게시판 v 0.1 ==");
     System.out.println("프로그램 시작");
 
+    // 프로그램이 실행되자마 회원 1번이 로그인 될 수 있도록.
+    forTestLoginByMemberId(1);
+
     while (true) {
       Rq rq = new Rq();
 
@@ -54,6 +57,12 @@ public class App {
     }
 
     Container.getSc().close();
+  }
+
+  private void forTestLoginByMemberId(int id) {
+    Member member = Container.getMemberService().findById(id);
+
+    new Rq().login(member);
   }
 
   private boolean runInterceptor(Rq rq) {
