@@ -1,12 +1,10 @@
 package com.sbs.exam.board.controller;
 
 import com.sbs.exam.board.Rq;
-import com.sbs.exam.board.Util;
 import com.sbs.exam.board.container.Container;
 import com.sbs.exam.board.dto.Article;
 import com.sbs.exam.board.service.ArticleService;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ArticleController {
@@ -34,37 +32,16 @@ public class ArticleController {
   }
 
   public void showList(Rq rq) {
-    // 검색 시작
-    List<Article> filteredArticles = articles;
-
     String searchKeyword = rq.getParam("searchKeyword", "");
-
-    if (searchKeyword.length() > 0) {
-      filteredArticles = new ArrayList<>();
-
-      for (Article article : articles) {
-        boolean matched = article.getTitle().contains(searchKeyword) || article.getBody().contains(searchKeyword);
-
-        if (matched) {
-          filteredArticles.add(article);
-        }
-      }
-    }
-    // 검색 기능 끝
-
     String orderBy = rq.getParam("orderBy", "idDesc");
-    boolean orderByIdDesc = orderBy.equals("idDesc"); // 기존로직
 
-    List<Article> sortedArticles = filteredArticles;
-
-    if (orderByIdDesc) {
-      sortedArticles = Util.reverseList(sortedArticles);
-    }
+    // 정렬
+    List<Article> articles = articleService.findByArticles(searchKeyword, orderBy);
 
     System.out.println("== 게시물 리스트 ==");
     System.out.println("번호 | 제목");
 
-    for (Article article : sortedArticles) {
+    for (Article article : articles) {
       System.out.printf(" %d  | %s\n", article.getId(), article.getTitle());
     }
   }

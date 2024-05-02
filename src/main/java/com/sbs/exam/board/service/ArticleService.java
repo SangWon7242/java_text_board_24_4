@@ -39,4 +39,8 @@ public class ArticleService {
   public void modify(int id, String title, String body) {
     articleRepository.modify(id, title, body);
   }
+
+  public List<Article> findByArticles(String keyword, String orderBy) {
+    return articleRepository.findByArticles(keyword, orderBy);
+  }
 }

@@ -1,11 +1,8 @@
 package com.sbs.exam.board.session;
 
-import lombok.Data;
-
 import java.util.HashMap;
 import java.util.Map;
 
-@Data
 public class Session {
   private Map<String, Object> store;
 
