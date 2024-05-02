@@ -12,6 +12,7 @@ public class ArticleRepository {
 
   @Getter
   private List<Article> articles;
+
   public ArticleRepository() {
     lastId = 0;
     articles = new ArrayList<>();
@@ -49,18 +50,30 @@ public class ArticleRepository {
     return null;
   }
 
-  public List<Article> findByArticles(String keyword, String orderBy) {
-    List<Article> filteredArticles = articles;
+  public List<Article> getArticles(String searchKeywordTypeCode, String keyword, String orderBy) {
+    List<Article> filteredArticles = articles; // 정렬되지 않은 순수한 로직
 
     // 검색 시작
     if (keyword.length() > 0) {
       filteredArticles = new ArrayList<>();
 
       for (Article article : articles) {
-        boolean matched = article.getTitle().contains(keyword) || article.getBody().contains(keyword);
-
-        if (matched) {
-          filteredArticles.add(article);
+        switch (searchKeywordTypeCode) {
+          case "title":
+            if (article.getTitle().contains(keyword)) {
+              filteredArticles.add(article);
+            }
+            break;
+          case "body":
+            if (article.getBody().contains(keyword)) {
+              filteredArticles.add(article);
+            }
+            break;
+          case "title,body":
+            if (article.getTitle().contains(keyword) || article.getBody().contains(keyword)) {
+              filteredArticles.add(article);
+            }
+            break;
         }
       }
     }

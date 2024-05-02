@@ -26,10 +26,6 @@ public class ArticleService {
     return articleRepository.write(title, body, writerName, memberId);
   }
 
-  public List<Article> getArticles() {
-    return articleRepository.getArticles();
-  }
-
   public Article findById(int id) {
     return articleRepository.findById(id);
   }
@@ -42,7 +38,7 @@ public class ArticleService {
     articleRepository.modify(id, title, body);
   }
 
-  public List<Article> findByArticles(String keyword, String orderBy) {
-    return articleRepository.findByArticles(keyword, orderBy);
+  public List<Article> getArticles(String searchKeywordTypeCode, String keyword, String orderBy) {
+    return articleRepository.getArticles(searchKeywordTypeCode, keyword, orderBy);
   }
 }

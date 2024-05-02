@@ -34,11 +34,12 @@ public class ArticleController {
   }
 
   public void showList(Rq rq) {
+    String searchKeywordTypeCode = rq.getParam("searchKeywordTypeCode", "");
     String searchKeyword = rq.getParam("searchKeyword", "");
-    String orderBy = rq.getParam("orderBy", "idDesc()");
+    String orderBy = rq.getParam("orderBy", "idDesc");
 
     // 정렬
-    List<Article> articles = articleService.findByArticles(searchKeyword, orderBy);
+    List<Article> articles = articleService.getArticles(searchKeywordTypeCode, searchKeyword, orderBy);
 
     System.out.println("== 게시물 리스트 ==");
     System.out.println("번호 | 제목 | 작성자");
