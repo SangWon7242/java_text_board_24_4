@@ -21,10 +21,10 @@ public class ArticleController {
     System.out.println("== 게시물 작성 ==");
 
     System.out.printf("제목) ");
-    String title = Container.sc.nextLine();
+    String title = Container.getSc().nextLine();
 
     System.out.printf("내용) ");
-    String body = Container.sc.nextLine();
+    String body = Container.getSc().nextLine();
 
     int id = articleService.write(title, body);
 
@@ -33,7 +33,7 @@ public class ArticleController {
 
   public void showList(Rq rq) {
     String searchKeyword = rq.getParam("searchKeyword", "");
-    String orderBy = rq.getParam("orderBy", "idDesc");
+    String orderBy = rq.getParam("orderBy", "idDegetSc()");
 
     // 정렬
     List<Article> articles = articleService.findByArticles(searchKeyword, orderBy);
@@ -83,10 +83,10 @@ public class ArticleController {
     }
 
     System.out.printf("새 제목 : ");
-    String title = Container.sc.nextLine();
+    String title = Container.getSc().nextLine();
 
     System.out.printf("새 내용 : ");
-    String body = Container.sc.nextLine();
+    String body = Container.getSc().nextLine();
 
     articleService.modify(id, title, body);
 

@@ -23,7 +23,7 @@ public class MemberController {
     // 아이디 입력 시작
     while (true) {
       System.out.printf("아이디 : ");
-      username = Container.sc.nextLine();
+      username = Container.getSc().nextLine();
 
       if (username.trim().isEmpty()) {
         System.out.println("username을 입력해주세요.");
@@ -44,7 +44,7 @@ public class MemberController {
     // 비밀번호 입력 시작
     while (true) {
       System.out.printf("비밀번호 : ");
-      password = Container.sc.nextLine();
+      password = Container.getSc().nextLine();
 
       if (password.trim().isEmpty()) {
         System.out.println("password(을)를 입력해주세요.");
@@ -53,7 +53,7 @@ public class MemberController {
 
       while (true) {
         System.out.printf("비밀번호 확인 : ");
-        passwordConfirm = Container.sc.nextLine();
+        passwordConfirm = Container.getSc().nextLine();
 
         if (passwordConfirm.trim().isEmpty()) {
           System.out.println("passwordConfirm(을)를 입력해주세요.");
@@ -75,7 +75,7 @@ public class MemberController {
     // 이름 입력 시작
     while (true) {
       System.out.printf("이름 : ");
-      name = Container.sc.nextLine();
+      name = Container.getSc().nextLine();
 
       if (name.trim().isEmpty()) {
         System.out.println("name을 입력해주세요.");
@@ -92,13 +92,6 @@ public class MemberController {
   }
 
   public void actionLogin(Rq rq) {
-
-    if(rq.isLogined()) {
-      System.out.println("이미 로그인 되어 있습니다.");
-      System.out.println("로그아웃 후 이용해주세요.");
-      return;
-    }
-
     String username;
     String password;
     Member member;
@@ -106,7 +99,7 @@ public class MemberController {
     // 아이디 입력 시작
     while (true) {
       System.out.printf("아이디 : ");
-      username = Container.sc.nextLine();
+      username = Container.getSc().nextLine();
 
       if (username.trim().isEmpty()) {
         System.out.println("username을 입력해주세요.");
@@ -135,7 +128,7 @@ public class MemberController {
       }
 
       System.out.printf("비밀번호 : ");
-      password = Container.sc.nextLine();
+      password = Container.getSc().nextLine();
 
       if (password.trim().isEmpty()) {
         System.out.println("password(을)를 입력해주세요.");
@@ -161,11 +154,6 @@ public class MemberController {
   }
 
   public void actionLogout(Rq rq) {
-    if(rq.isLogout()) {
-      System.out.println("이미 로그아웃 상태입니다.");
-      return;
-    }
-
     rq.logout();
     System.out.println("로그아웃 되었습니다.");
   }

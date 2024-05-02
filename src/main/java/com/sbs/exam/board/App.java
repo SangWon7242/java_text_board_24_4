@@ -2,6 +2,10 @@ package com.sbs.exam.board;
 
 import com.sbs.exam.board.container.Container;
 import com.sbs.exam.board.dto.Member;
+import com.sbs.exam.board.interceptor.Interceptor;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class App {
   public void run() {
@@ -19,33 +23,52 @@ public class App {
       }
 
       System.out.printf("%s) ", promptName);
-      String cmd = Container.sc.nextLine();
-
+      String cmd = Container.getSc().nextLine();
 
       rq.setCommand(cmd);
 
+      if(runInterceptor(rq) == false) {
+        continue;
+      }
+
       if (rq.getUrlPath().equals("/usr/article/write")) {
-        Container.articleController.actionWrite();
+        Container.getArticleController().actionWrite();
       } else if (rq.getUrlPath().equals("/usr/article/list")) {
-        Container.articleController.showList(rq);
+        Container.getArticleController().showList(rq);
       } else if (rq.getUrlPath().equals("/usr/article/detail")) {
-        Container.articleController.showDetail(rq);
+        Container.getArticleController().showDetail(rq);
       } else if (rq.getUrlPath().equals("/usr/article/modify")) {
-        Container.articleController.actionModify(rq);
+        Container.getArticleController().actionModify(rq);
       } else if (rq.getUrlPath().equals("/usr/article/delete")) {
-        Container.articleController.actionDelete(rq);
+        Container.getArticleController().actionDelete(rq);
       } else if (rq.getUrlPath().equals("/usr/member/join")) {
-        Container.memberController.actionJoin();
+        Container.getMemberController().actionJoin();
       } else if (rq.getUrlPath().equals("/usr/member/login")) {
-        Container.memberController.actionLogin(rq);
+        Container.getMemberController().actionLogin(rq);
       } else if (rq.getUrlPath().equals("/usr/member/logout")) {
-        Container.memberController.actionLogout(rq);
+        Container.getMemberController().actionLogout(rq);
       } else if (cmd.equals("exit")) {
         System.out.println("== 게시판을 종료합니다 ==");
         break;
       }
     }
 
-    Container.sc.close();
+    Container.getSc().close();
+  }
+
+  private boolean runInterceptor(Rq rq) {
+    List<Interceptor> interceptors = new ArrayList<>();
+
+    interceptors.add(Container.getNeedLoginInterceptor());
+    interceptors.add(Container.getNeedLogoutInterceptor());
+
+    for(Interceptor interceptor : interceptors) {
+      // interceptor.run(rq) : 로그인, 로그아웃이 되어 있다면 true, 아니면 false
+      if(interceptor.run(rq) == false) {
+        return false;
+      }
+    }
+
+    return true;
   }
 }
